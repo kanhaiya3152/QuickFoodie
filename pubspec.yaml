@@ -36,6 +36,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   curved_navigation_bar: ^1.0.6
+  firebase_core: ^3.10.1
+  firebase_auth: ^5.4.1
+  firebase_storage: ^12.4.1
+  cloud_firestore: ^5.6.2
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +77,7 @@ flutter:
     - assets/screen2.png
     - assets/screen3.png
     - assets/wallet.png
+    - assets/logo.png
     - assets/boy.jpg
   #   - images/a_dot_ham.jpeg
 
