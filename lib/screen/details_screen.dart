@@ -13,7 +13,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Details",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -21,7 +21,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
             child: Image.asset(
               'assets/salad2.png',
               width: MediaQuery.of(context).size.width,
@@ -33,7 +33,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             height: 20,
           ),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: 20,
               right: 20,
             ),
@@ -42,7 +42,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Medditerranean ",
                       style: TextStyle(
                           color: Colors.black,
@@ -50,7 +50,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins'),
                     ),
-                    const Text(
+                    Text(
                       "Chickpea Salad  ",
                       style: TextStyle(
                           color: Colors.black,
@@ -60,7 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ],
                 ),
-                Spacer(), // provides the space between the two widget(just like spacebetween)
+                const Spacer(), // provides the space between the two widget(just like spacebetween)
                 Row(
                   children: [
                     GestureDetector(
@@ -77,7 +77,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(7)),
-                        child: Icon(
+                        child: const Icon(
                           Icons.remove,
                           color: Colors.white,
                         ),
@@ -90,7 +90,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
                 Text(
                   a.toString(),
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,fontFamily: 'Poppins'),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18,fontFamily: 'Poppins'),
                 ),
                 const SizedBox(
                   width: 15,
@@ -108,7 +108,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(7)),
-                        child: Icon(
+                        child: const Icon(
                           Icons.add,
                           color: Colors.white,
                         ),
@@ -120,14 +120,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ],
             ),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Container(
-            padding: EdgeInsets.only(left: 20),
-            child: Text('Stunning Animating Curved Shape Navigation Bar. Adjustable color, background color, animation curve, animation duration Adjustable color, background color, animation curve, animation duration.',style: TextStyle(color: Colors.black54),maxLines: 3,)),
+            padding: const EdgeInsets.only(left: 20),
+            child: const Text('Stunning Animating Curved Shape Navigation Bar. Adjustable color, background color, animation curve, animation duration Adjustable color, background color, animation curve, animation duration.',style: TextStyle(color: Colors.black54),maxLines: 3,)),
 
           const SizedBox(height: 30,),
           Container(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20),
             child:const Row(
               children: [
                 Text("Delivery Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,fontFamily: 'Poppins',color: Colors.black),),
@@ -138,7 +138,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             children: [
               const Padding(
@@ -151,14 +151,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
               ),
-              SizedBox(width: 70,),
+              const SizedBox(width: 70,),
               Container(
-                margin: EdgeInsets.only(right: 10,bottom: 50),
+                margin: const EdgeInsets.only(right: 10,bottom: 50),
                 height: 50,
                 width: 210,
                 decoration: BoxDecoration(color:Colors.black,borderRadius:  BorderRadius.circular(12)),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 20,right: 18,top: 10,bottom: 10),
+                  padding: const EdgeInsets.only(left: 20,right: 18,top: 10,bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -171,9 +171,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             fontFamily: 'Poppins'),
                       ),
                       Container(
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(color:  Colors.grey,borderRadius: BorderRadius.circular(8)),
-                        child:  Icon(Icons.shopping_cart_outlined,color: Colors.white,),
+                        child:  const Icon(Icons.shopping_cart_outlined,color: Colors.white,),
                       )
                     ],
                   ),

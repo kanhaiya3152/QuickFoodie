@@ -32,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'Poppins'),
                   ),
                   Container(
-                      padding: EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(4)),
-                      child: Icon(
+                      child: const Icon(
                         Icons.shopping_cart_outlined,
                         color: Colors.white,
                       )),
@@ -75,15 +75,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (ctx) => DetailsScreen()));
+                            MaterialPageRoute(builder: (ctx) => const DetailsScreen()));
                       },
                       child: Container(
-                        margin: EdgeInsets.all(4),
+                        margin: const EdgeInsets.all(4),
                         child: Material(
                           elevation: 5,
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       elevation: 5,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       elevation: 5,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -234,18 +234,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 child: Material(
                   borderRadius: BorderRadius.circular(20),
                   elevation: 5,
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -260,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Column(
                           children: [
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "Medditerranean Chickpea Salad ",
@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "Honey goot cheese",
@@ -288,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "\$25",
@@ -306,18 +306,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 child: Material(
                   borderRadius: BorderRadius.circular(20),
                   elevation: 5,
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -332,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Column(
                           children: [
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "Medditerranean Chickpea Salad ",
@@ -346,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "Honey goot cheese",
@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width / 2,
                               child: const Text(
                                 "\$25",
@@ -404,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                   color: iceCream ? Colors.black12 : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/ice-cream.png',
                 height: 45,
@@ -430,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                   color: burger ? Colors.black12 : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/burger.png',
                 height: 45,
@@ -456,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                   color: pizza ? Colors.black12 : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/pizza.png',
                 height: 45,
@@ -482,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                   color: salad ? Colors.black12 : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Image.asset(
                 'assets/salad.png',
                 height: 45,
