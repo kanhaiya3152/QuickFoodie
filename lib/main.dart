@@ -5,6 +5,7 @@ import 'package:food_delivery_app/screen/onbord.dart';
 // import 'package:food_delivery_app/screen/signup_screen.dart';
 // import 'package:food_delivery_app/widget/bottom_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:food_delivery_app/widget/bottom_navigation.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Onboard(),
+      home: const BottomNavigation(),
     );
   }
 }

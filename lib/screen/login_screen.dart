@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String password = "", email = "";
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -47,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (ctx) => const BottomNavigation()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print(ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.orangeAccent,
-            content: Text('No user found!'))));
+            content: Text('No user found!')));
       } else if (e.code == 'wrong-password') {
-        print(ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.orangeAccent,
-            content: Text('Password incorrect'))));
+            content: Text('Password incorrect')));
       }
     }
   }
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 3),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height/1.45,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(

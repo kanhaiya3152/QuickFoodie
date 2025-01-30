@@ -87,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 margin:
                     EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height ,
+                height: MediaQuery.of(context).size.height/1.45 ,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
@@ -199,7 +199,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 90,
+                                height: 70,
                               ),
                               GestureDetector(
                                 onTap: () async {
