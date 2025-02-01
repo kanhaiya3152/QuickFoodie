@@ -14,6 +14,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentIndex = 0;
+  // final String userId = 'default_uid'; // Replace 'default_uid' with the actual UID value
 
   late List<Widget> page;
   late Widget currentPage;
@@ -27,7 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     home = const HomeScreen();
     order = const OrderScreen();
     profile = const ProfileScreen();
-    wallet = const Wallet();
+    wallet =  Wallet();
     page = [home, order, wallet, profile];
     super.initState();
   }
@@ -36,23 +37,34 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        color: Colors.black,
-        height: 65,
-        animationDuration: const Duration(milliseconds: 500),
+          backgroundColor: Colors.white,
+          color: Colors.black,
+          height: 65,
+          animationDuration: const Duration(milliseconds: 500),
           onTap: (int index) {
             setState(() {
-              currentIndex=index;
+              currentIndex = index;
             });
           },
           items: const [
-            Icon(Icons.home_outlined,color: Colors.white,),
-            Icon(Icons.shopping_bag_outlined,color: Colors.white,),
-            Icon(Icons.wallet_outlined,color: Colors.white,),
-            Icon(Icons.person_outline,color: Colors.white,),
-          ]
-          ),
-          body: page[currentIndex],
+            Icon(
+              Icons.home_outlined,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.shopping_bag_outlined,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.wallet_outlined,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.person_outline,
+              color: Colors.white,
+            ),
+          ]),
+      body: page[currentIndex],
     );
   }
 }
