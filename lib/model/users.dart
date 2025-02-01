@@ -4,11 +4,13 @@ class Users {
   final String uid;
   final String username;
   final String email;
+  final int walletBalance;
 
   Users({
     required this.uid,
     required this.username,
     required this.email,
+    required this.walletBalance,
   });
 
   static Users fromSnap(DocumentSnapshot snap) {
@@ -22,6 +24,7 @@ class Users {
       uid: snapshot['uid'] ?? '',
       username: snapshot['username'] ?? '',
       email: snapshot['email'] ?? '',
+      walletBalance: (snapshot['walletBalance'] ?? '') as int,
     );
   }
 
@@ -29,5 +32,6 @@ class Users {
         "uid": uid,
         "username": username,
         "email": email,
+        "walletBalance" : walletBalance,
       };
 }
