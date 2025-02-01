@@ -1,14 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/screen/payment_screen.dart';
 
 class Wallet extends StatefulWidget {
-  const Wallet({super.key});
+  
+
+  const Wallet({super.key,});
 
   @override
   State<Wallet> createState() => _WalletState();
 }
 
 class _WalletState extends State<Wallet> {
+  int walletBalance = 0;
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWalletBalance();
+  }
+
+  Future<void> fetchWalletBalance() async {
+    final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
+    final snapshot = await userDoc.get();
+
+    if (snapshot.exists) {
+      setState(() {
+        walletBalance = snapshot.data()!['walletBalance'];
+      });
+    } else {
+      debugPrint("User document does not exist!");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,22 +76,22 @@ class _WalletState extends State<Wallet> {
                   const SizedBox(
                     width: 40,
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Your Wallet",
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        "\$" + "100",
-                        style: TextStyle(
+                        "\$" + walletBalance.toString(),
+                        style: const TextStyle(
                             color: Colors.black,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.bold,
@@ -95,14 +121,38 @@ class _WalletState extends State<Wallet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => PaymentScreen(),
+                      ),
+                    ).then((_) => fetchWalletBalance()); // Refresh balance after returning
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xFFE9E2E2)),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Text(
+                      "\$100",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16),
+                    ),
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE9E2E2)),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text(
-                    "\$" + "100",
+                  child: const Text(
+                    "\$500",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
@@ -116,8 +166,8 @@ class _WalletState extends State<Wallet> {
                     border: Border.all(color: const Color(0xFFE9E2E2)),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text(
-                    "\$" + "500",
+                  child: const Text(
+                    "\$1000",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
@@ -131,23 +181,8 @@ class _WalletState extends State<Wallet> {
                     border: Border.all(color: const Color(0xFFE9E2E2)),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text(
-                    "\$" + "1000",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFFE9E2E2)),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text(
-                    "\$" + "2000",
+                  child: const Text(
+                    "\$2000",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
@@ -166,7 +201,7 @@ class _WalletState extends State<Wallet> {
                   MaterialPageRoute(
                     builder: (ctx) => PaymentScreen(),
                   ),
-                );
+                ).then((_) => fetchWalletBalance()); // Refresh balance after returning
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -176,7 +211,7 @@ class _WalletState extends State<Wallet> {
                   color: const Color(0xFF008080),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Add Money',
                     style: TextStyle(
