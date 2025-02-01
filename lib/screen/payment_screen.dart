@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_delivery_app/screen/wallet.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentScreen extends StatefulWidget {
+
   const PaymentScreen({super.key});
 
   @override
@@ -11,10 +15,11 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   late Razorpay _razorpay;
-
   final TextEditingController _amountController = TextEditingController();
 
-  void openCheckout(amount) async {
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  Future<void> openCheckout(int amount) async {
     amount = amount * 100;
     var options = {
       'key': 'rzp_test_jfRGEmmQAOFqac',
@@ -28,14 +33,82 @@ class _PaymentScreenState extends State<PaymentScreen> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      debugPrint('Error : e');
+      debugPrint('Error : $e');
     }
   }
 
-  void handlePaymentSuccess(PaymentSuccessResponse response) {
+  // Future<void> updateWalletBalance(String userId, int amount) async {
+  //   final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  //   try {
+  //     await FirebaseFirestore.instance.runTransaction((transaction) async {
+  //       final snapshot = await transaction.get(userDoc);
+
+  //       if (!snapshot.exists) {
+  //         throw Exception("User does not exist!");
+  //       }
+
+  //       final currentBalance = snapshot.data()!['walletBalance'];
+  //       final newBalance = currentBalance + amount;
+  //       transaction.update(userDoc, {'walletBalance': newBalance});
+  //     });
+  //   } catch (error) {
+  //     debugPrint("Failed to update wallet balance: $error");
+  //     throw Exception("Failed to update wallet balance: $error");
+  //   }
+  // }
+
+  Future<void> updateWalletBalance(String userId, int amount) async {
+  final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  try {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final snapshot = await transaction.get(userDoc);
+
+      // ✅ Debugging: Check if the document exists
+      if (!snapshot.exists) {
+        debugPrint("❌ User document does not exist: $userId");
+        throw Exception("User does not exist!");
+      } else {
+        debugPrint("✅ User document found: ${snapshot.data()}");
+      }
+
+      final currentBalance = snapshot.data()?['walletBalance'] ?? 0;
+      final newBalance = currentBalance + amount;
+
+      debugPrint("💰 Updating wallet balance: Old=$currentBalance, New=$newBalance");
+
+      transaction.update(userDoc, {'walletBalance': newBalance});
+    });
+
+    debugPrint("✅ Wallet balance updated successfully");
+  } catch (error) {
+    debugPrint("❌ Failed to update wallet balance: $error");
+  }
+}
+
+
+  void handlePaymentSuccess(PaymentSuccessResponse response) async {
     Fluttertoast.showToast(
         msg: "Payment Successful" + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT);
+
+    // int amount = int.parse(_amountController.text);
+    int? amount = int.tryParse(_amountController.text);
+      if (amount == null || amount <= 0) {
+        Fluttertoast.showToast(msg: "Please enter a valid amount");
+        return;
+      }
+
+    try {
+      await updateWalletBalance(userId, amount);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => Wallet()));
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Failed to update wallet balance: $e",
+          toastLength: Toast.LENGTH_SHORT);
+    }
   }
 
   void handlePaymentError(PaymentFailureResponse response) {
@@ -52,9 +125,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _amountController.dispose();
     _razorpay.clear();
+    super.dispose();
   }
 
   @override
@@ -71,7 +144,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Text("Payments",style: TextStyle(color: Colors.white),),
+        title: Text(
+          "Payments",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -89,7 +165,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   fontSize: 22,
                   fontFamily: "Poppins"),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Padding(
@@ -98,7 +174,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 controller: _amountController,
                 cursorColor: Colors.white,
                 autofocus: false,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   labelText: 'Enter amount to be paid',
                   labelStyle: TextStyle(fontSize: 15, color: Colors.white),
@@ -117,23 +193,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             ElevatedButton(
               onPressed: () {
                 if (_amountController.text.toString().isNotEmpty) {
-                  setState(() {
-                    int amount = int.parse(_amountController.text.toString());
-                    openCheckout(amount);
-                  });
+                  int amount = int.parse(_amountController.text.toString());
+                  openCheckout(amount);
                 }
               },
               child: Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
                     "Make Payment",
-                    style: TextStyle(color: Colors.black,fontFamily: "Poppins",fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.bold),
                   )),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
             ),
