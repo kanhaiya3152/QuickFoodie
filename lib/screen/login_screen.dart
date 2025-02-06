@@ -34,13 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-
+        
       // setState(() {
       //   _isLoading = false;
       // });
 
       ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.green,
           content: Text('Login Successfully'))));
 
       Navigator.of(context).pushReplacement(
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: MediaQuery.of(context).size.height / 2.1,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(20),),
                         child: Form(
                           key: _formKey,
                           child: Column(
