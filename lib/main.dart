@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:food_delivery_app/screen/home_screen.dart';
-// import 'package:food_delivery_app/screen/login_screen.dart';
-import 'package:food_delivery_app/screen/onbord.dart';
-// import 'package:food_delivery_app/screen/signup_screen.dart';
-// import 'package:food_delivery_app/widget/bottom_navigation.dart';
+import 'package:food_delivery_app/admin/admin_home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:food_delivery_app/widget/bottom_navigation.dart';
 import 'firebase_options.dart';
