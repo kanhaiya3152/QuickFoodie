@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,18 +24,6 @@ class _AddFoodState extends State<AddFood> {
   // final ImagePicker _picker = ImagePicker();
   // File? selectedImage;
   Uint8List? _file;
-
-  pickImage(ImageSource source) async {
-    final ImagePicker imagePicker = ImagePicker();
-
-    XFile? file = await imagePicker.pickImage(source: source);
-
-    if (file != null) {
-      return await file.readAsBytes();
-    }
-
-    print("No image selected");
-  }
 
   // creating a showdialog box and get image from device
   _selectImage(BuildContext context) async {
