@@ -14,6 +14,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   String name = '', password = '', email = '';
+  bool _isLoading = false;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -35,44 +36,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // connect with firebase
 
-  // Future<void> registration() async {
-  //   try {
-  //     UserCredential userCredential = await _auth
-  //         .createUserWithEmailAndPassword(email: email, password: password);
-
-  //     // to add this data to firebasefirestore
-  //     Users user =
-  //         Users(uid: userCredential.user!.uid, username: name, email: email,walletBalance: 0);
-
-  //     await _firestore
-  //         .collection('users')
-  //         .doc(userCredential.user!.uid)
-  //         .set(user.toJson());
-
-  //     ScaffoldMessenger.of(context).showSnackBar((SnackBar(
-  //         backgroundColor: Colors.redAccent,
-  //         content: Text('Registered Successfully'))));
-  //     Navigator.of(context).pushReplacement(
-  //         MaterialPageRoute(builder: (ctx) => BottomNavigation()));
-  //   } on FirebaseException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           backgroundColor: Colors.orangeAccent,
-  //           content: Text('Password is too weak')));
-  //     } else if (e.code == 'email-already-in-use') {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //           backgroundColor: Colors.orangeAccent,
-  //           content: Text('email already exists')));
-  //     }
-  //   }
-  //   }
-
   Future<void> registration({
     required String email,
     required String password,
     required String name,
     required BuildContext context,
   }) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -94,6 +66,9 @@ class _SignupScreenState extends State<SignupScreen> {
       );
 
       await _firestore.collection('users').doc(userId).set(user.toJson());
+      setState(() {
+      _isLoading = false;
+    });
 
       // ✅ Show success message only if the widget is mounted
       if (context.mounted) {
