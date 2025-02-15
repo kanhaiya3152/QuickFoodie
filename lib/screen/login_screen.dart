@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/admin/admin_screen.dart';
 import 'package:food_delivery_app/screen/forgot_password_screen.dart';
 import 'package:food_delivery_app/screen/signup_screen.dart';
 import 'package:food_delivery_app/widget/bottom_navigation.dart';
@@ -13,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String password = "", email = "";
-  // bool _isLoading = false;
+  bool _isLoading = false;
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -28,20 +29,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   userLogin() async {
-    // setState(() {
-    //   _isLoading = true;
-    // });
     try {
+      setState(() {
+        _isLoading = true;
+      });
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-        
-      // setState(() {
-      //   _isLoading = false;
-      // });
+
+      setState(() {
+        _isLoading = false;
+      });
 
       ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
-          backgroundColor: Colors.green,
-          content: Text('Login Successfully'))));
+          backgroundColor: Colors.green, content: Text('Login Successfully'))));
 
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => const BottomNavigation()));
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 3),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/1.45,
+                height: MediaQuery.of(context).size.height / 1.45,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
@@ -108,8 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height / 2.1,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -192,12 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 80,
                               ),
-                              // _isLoading
-                              //     ? const Center(
-                              //         child: CircularProgressIndicator(
-                              //           color: Colors.white,
-                              //         ),
-                              //       )
                               GestureDetector(
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
@@ -219,16 +214,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: const Color(0Xffff5722),
                                         borderRadius:
                                             BorderRadius.circular(20)),
-                                    child: const Center(
-                                      child: Text(
-                                        'LOGIN',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins1',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                    ),
+                                    child: _isLoading
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : const Center(
+                                            child: Text(
+                                              'LOGIN',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins1',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          ),
                                   ),
                                 ),
                               )
@@ -269,6 +270,39 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )),
                         ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Divider(),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (ctx) => const AdminScreen()));
+                      },
+                      child: Container(
+                        width: 220,
+                        height: 45,
+                        // padding: const EdgeInsets.only(left: 100),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Login as Admin",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ),
                     )
                   ],
