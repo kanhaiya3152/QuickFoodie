@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/screen/details_screen.dart';
+import 'package:food_delivery_app/screen/order_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return await FirebaseFirestore.instance.collection(name).snapshots();
   }
 
+  String username = "";
+  Future<void> getDetails() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userId)
+          .get();
+      if (snapshot.exists) {
+        setState(() {
+          username = snapshot.data()?["username"] ?? " ";
+        });
+      }
+    }
+  }
+
   ontheLoad() async {
     foodItemStream = await getFoodItem("Pizza");
     setState(() {});
@@ -27,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     ontheLoad();
+    getDetails();
     super.initState();
   }
 
@@ -45,7 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => DetailsScreen(image: ds["image"], name: ds["name"], price: ds["price"], details: ds["details"])));
+                            builder: (ctx) => DetailsScreen(
+                                image: ds["image"],
+                                name: ds["name"],
+                                price: ds["price"],
+                                details: ds["details"])));
                       },
                       child: Container(
                         margin: const EdgeInsets.all(4),
@@ -106,7 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   })
-              : const Center(child: CircularProgressIndicator(color: Colors.black,),);
+              : const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                );
         });
   }
 
@@ -119,13 +146,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.zero,
                   itemCount: snapshot.data.docs.length,
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => DetailsScreen(image: ds["image"], name: ds["name"], price: ds["price"], details: ds["details"])));
+                            builder: (ctx) => DetailsScreen(
+                                image: ds["image"],
+                                name: ds["name"],
+                                price: ds["price"],
+                                details: ds["details"])));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 10),
@@ -158,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           MediaQuery.of(context).size.width / 2,
                                       child: Text(
                                         ds["name"],
-                                        style:const TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
@@ -171,9 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(
                                       width:
                                           MediaQuery.of(context).size.width / 2,
-                                      child:  Text(
-                                        ds["details"],
-                                        style:const TextStyle(
+                                      child: Text(
+                                        "Fresh and Healthy",
+                                        style: const TextStyle(
                                             color: Colors.black38,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w300,
@@ -204,42 +236,72 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   })
-              : const Center(child: CircularProgressIndicator(color: Colors.black,),);
+              : const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                );
         });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "Hello ${username},",
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins'),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => OrderScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+                size: 25,
+              ))
+        ],
+      ),
       body: Container(
-        margin: const EdgeInsets.only(left: 20, top: 42, right: 20),
+        margin: const EdgeInsets.only(left: 20, right: 20),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Hello Kanhaiya,",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins'),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4)),
-                      child: const Icon(
-                        Icons.shopping_cart_outlined,
-                        color: Colors.white,
-                      )),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     const Text(
+              //       "Hello Kanhaiya,",
+              //       style: TextStyle(
+              //           color: Colors.black,
+              //           fontSize: 20,
+              //           fontWeight: FontWeight.bold,
+              //           fontFamily: 'Poppins'),
+              //     ),
+              //     Container(
+              //         padding: const EdgeInsets.all(3),
+              //         decoration: BoxDecoration(
+              //             color: Colors.black,
+              //             borderRadius: BorderRadius.circular(4)),
+              //         child: const Icon(
+              //           Icons.shopping_cart_outlined,
+              //           color: Colors.white,
+              //         )),
+              //   ],
+              // ),
               const SizedBox(
                 height: 20,
               ),
@@ -300,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                  color: iceCream ? Colors.black12 : Colors.white,
+                  color: iceCream ? Colors.black : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(8),
               child: Image.asset(
@@ -314,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         GestureDetector(
-          onTap: ()async {
+          onTap: () async {
             iceCream = false;
             burger = true;
             pizza = false;
@@ -327,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                  color: burger ? Colors.black12 : Colors.white,
+                  color: burger ? Colors.black : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(8),
               child: Image.asset(
@@ -341,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         GestureDetector(
-          onTap: ()async {
+          onTap: () async {
             iceCream = false;
             burger = false;
             pizza = true;
@@ -354,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                  color: pizza ? Colors.black12 : Colors.white,
+                  color: pizza ? Colors.black : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(8),
               child: Image.asset(
@@ -381,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               decoration: BoxDecoration(
-                  color: salad ? Colors.black12 : Colors.white,
+                  color: salad ? Colors.black : Colors.white,
                   borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(8),
               child: Image.asset(
