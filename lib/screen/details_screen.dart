@@ -17,6 +17,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   int a = 1, total = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -27,12 +28,54 @@ class _DetailsScreenState extends State<DetailsScreen> {
   // Store cart details data to firestore
   final String id = FirebaseAuth.instance.currentUser!.uid;
 
-  Future addFoodToCart(Map<String, dynamic> userInfoMap, String id) async {
-    return await FirebaseFirestore.instance
-        .collection("users")
-        .doc(id)
-        .collection('cart')
-        .add(userInfoMap);
+  Future<void> addOrUpdateFoodToCart(Map<String, dynamic> userInfoMap, String id) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .collection('cart')
+          .where("Name", isEqualTo: widget.name)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Item already in cart, update the quantity and total
+        DocumentSnapshot doc = querySnapshot.docs.first;
+        int existingQuantity = int.parse(doc["Quantity"]);
+        int newQuantity = existingQuantity + a;
+        int existingTotal = int.parse(doc["Total"]);
+        int newTotal = existingTotal + total;
+
+        await doc.reference.update({
+          "Quantity": newQuantity.toString(),
+          "Total": newTotal.toString(),
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("Item quantity updated in cart")));
+      } else {
+        // Item not in cart, add new item
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(id)
+            .collection('cart')
+            .add(userInfoMap);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("Food added to cart")));
+      }
+    } catch (e) {
+      debugPrint("Not added : $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -76,14 +119,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins'),
                     ),
-                    // Text(
-                    //   "Chickpea Salad  ",
-                    //   style: TextStyle(
-                    //       color: Colors.black,
-                    //       fontSize: 19,
-                    //       fontWeight: FontWeight.bold,
-                    //       fontFamily: 'Poppins'),
-                    // ),
                   ],
                 ),
                 const Spacer(), // provides the space between the two widget(just like spaceBetween)
@@ -193,6 +228,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
           const Spacer(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 20, bottom: 50),
@@ -218,9 +254,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(
-                width: 70,
-              ),
               GestureDetector(
                 onTap: () async {
                   Map<String, dynamic> addFoodtoCart = {
@@ -229,48 +262,32 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     "Total": total.toString(),
                     "Image": widget.image,
                   };
-                  try {
-                    await addFoodToCart(addFoodtoCart, id);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Food added to cart")));
-                  } catch (e) {
-                    debugPrint("Not added : $e");
-                  }
+                  await addOrUpdateFoodToCart(addFoodtoCart, id);
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 10, bottom: 50),
-                  height: 50,
-                  width: 210,
+                  margin: const EdgeInsets.only(right: 20, bottom: 50),
+                  height: 45,
+                  width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(12)),
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 20, right: 18, top: 10, bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Add to cart",
-                          style: TextStyle(
+                    child: _isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
                               color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins'),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Icon(
-                            Icons.shopping_cart_outlined,
-                            color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            "Add to cart",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins'),
                           ),
-                        )
-                      ],
-                    ),
                   ),
                 ),
               ),
