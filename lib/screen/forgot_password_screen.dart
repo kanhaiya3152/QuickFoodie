@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     try {
       await _auth.sendPasswordResetEmail(email: email);
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text(
             "Email has been sent!",
@@ -29,7 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           )));
     } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.red,
             content: Text(
               "No user found!",
@@ -140,13 +140,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Don,t have an account ? ',
                             style: TextStyle(
                                 color: Colors.white, fontFamily: "Poppins"),
@@ -159,7 +159,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   ),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 'Create',
                                 style: TextStyle(
                                     color: Colors.redAccent,
