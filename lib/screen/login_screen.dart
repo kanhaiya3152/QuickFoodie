@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/admin/admin_screen.dart';
-import 'package:food_delivery_app/screen/forgot_password_screen.dart';
-import 'package:food_delivery_app/screen/signup_screen.dart';
-import 'package:food_delivery_app/widget/bottom_navigation.dart';
+import 'package:quick_foodie/admin/admin_screen.dart';
+import 'package:quick_foodie/screen/forgot_password_screen.dart';
+import 'package:quick_foodie/screen/signup_screen.dart';
+import 'package:quick_foodie/widget/bottom_navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -46,6 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => const BottomNavigation()));
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: Colors.orangeAccent,
@@ -60,14 +63,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           child: Stack(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.5,
+                width: screenWidth,
+                height: screenHeight / 2.5,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -75,10 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         colors: [Color(0xFFff5c30), Color(0xFFe74b1a)])),
               ),
               Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 3),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.45,
+                margin: EdgeInsets.only(top: screenHeight / 3),
+                width: screenWidth,
+                height: screenHeight / 1.45,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
@@ -87,26 +92,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
+                margin: EdgeInsets.only(
+                    top: screenHeight * 0.1,
+                    left: screenWidth * 0.05,
+                    right: screenWidth * 0.05),
                 child: Column(
                   children: [
                     Center(
                       child: Image.asset(
                         'assets/logo.png',
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: screenWidth / 1.5,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: screenHeight * 0.05,
                     ),
                     Material(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 2.1,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05),
+                        width: screenWidth,
+                        height: screenHeight / 2.1,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -115,8 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               const Text(
                                 'Login',
@@ -126,8 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               TextFormField(
                                 controller: _emailController,
@@ -147,8 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefixIcon: Icon(Icons.email_outlined),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               TextFormField(
                                 controller: _passwordController,
@@ -169,8 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefixIcon: Icon(Icons.password_outlined),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
+                              SizedBox(
+                                height: screenHeight * 0.02,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -190,8 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 80,
+                              SizedBox(
+                                height: screenHeight * 0.06,
                               ),
                               GestureDetector(
                                 onTap: () async {
@@ -199,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() {
                                       email = _emailController.text;
                                       password = _passwordController.text;
+                                      _isLoading = true;
                                     });
                                   }
                                   userLogin();
@@ -207,17 +217,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                   elevation: 5,
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    width: 200,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: screenHeight * 0.01),
+                                    width: screenWidth * 0.5,
                                     decoration: BoxDecoration(
                                         color: const Color(0Xffff5722),
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: _isLoading
                                         ? const Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
+                                            child: SizedBox(
+                                              height: 24,
+                                              width: 24,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           )
                                         : const Center(
@@ -238,11 +252,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: screenHeight * 0.04,
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 50),
+                      padding: EdgeInsets.only(left: screenWidth * 0.1),
                       child: Row(
                         children: [
                           const Text(
@@ -272,12 +286,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: screenHeight * 0.03,
                     ),
                     const Divider(),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: screenHeight * 0.04,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -285,9 +299,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (ctx) => const AdminScreen()));
                       },
                       child: Container(
-                        width: 220,
-                        height: 45,
-                        // padding: const EdgeInsets.only(left: 100),
+                        width: screenWidth * 0.55,
+                        height: screenHeight * 0.06,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
@@ -304,7 +317,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

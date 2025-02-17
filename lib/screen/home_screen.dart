@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screen/details_screen.dart';
-import 'package:food_delivery_app/screen/order_screen.dart';
+import 'package:quick_foodie/screen/details_screen.dart';
+import 'package:quick_foodie/screen/order_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

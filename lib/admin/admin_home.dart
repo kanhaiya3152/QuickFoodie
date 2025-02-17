@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/admin/add_food.dart';
+import 'package:quick_foodie/admin/add_food.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});

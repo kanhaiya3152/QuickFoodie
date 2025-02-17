@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/users.dart';
-import 'package:food_delivery_app/screen/login_screen.dart';
-import 'package:food_delivery_app/widget/bottom_navigation.dart';
+import 'package:quick_foodie/model/users.dart';
+import 'package:quick_foodie/screen/login_screen.dart';
+import 'package:quick_foodie/widget/bottom_navigation.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -31,10 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
   }
 
-  final _formKey = GlobalKey<
-      FormState>(); // use to check that all the textField data correctly field pr not
-
-  // connect with firebase
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> registration({
     required String email,
@@ -54,23 +51,18 @@ class _SignupScreenState extends State<SignupScreen> {
 
       String userId = userCredential.user!.uid;
 
-      // ✅ Debugging: Print the user ID to verify it's being created
-      debugPrint("New User ID: $userId");
-
-      // ✅ Create user model and save to Firestore
       Users user = Users(
         uid: userId,
         username: name,
         email: email,
-        walletBalance: 0, // ✅ Default wallet balance to 0
+        walletBalance: 0,
       );
 
       await _firestore.collection('users').doc(userId).set(user.toJson());
       setState(() {
-      _isLoading = false;
-    });
+        _isLoading = false;
+      });
 
-      // ✅ Show success message only if the widget is mounted
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
@@ -82,7 +74,9 @@ class _SignupScreenState extends State<SignupScreen> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      // ✅ Handle FirebaseAuth errors properly
+      setState(() {
+        _isLoading = false;
+      });
       String errorMessage = "Registration failed";
       if (e.code == 'weak-password') {
         errorMessage = "Password is too weak";
@@ -109,14 +103,17 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           child: Stack(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.5,
+                width: screenWidth,
+                height: screenHeight / 2.5,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -124,10 +121,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         colors: [Color(0xFFff5c30), Color(0xFFe74b1a)])),
               ),
               Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 3),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.45,
+                margin: EdgeInsets.only(top: screenHeight / 3),
+                width: screenWidth,
+                height: screenHeight / 1.45,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
@@ -136,26 +132,30 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
+                margin: EdgeInsets.only(
+                    top: screenHeight * 0.1,
+                    left: screenWidth * 0.05,
+                    right: screenWidth * 0.05),
                 child: Column(
                   children: [
                     Center(
                       child: Image.asset(
                         'assets/logo.png',
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: screenWidth / 1.5,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: screenHeight * 0.05,
                     ),
                     Material(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 1.9,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.05),
+                        width: screenWidth,
+                        height: screenHeight / 1.9,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20)),
@@ -163,8 +163,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               const Text(
                                 'Sign up',
@@ -174,8 +174,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               TextFormField(
                                 controller: _nameController,
@@ -195,8 +195,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   prefixIcon: Icon(Icons.person),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               TextFormField(
                                 controller: _emailController,
@@ -216,8 +216,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   prefixIcon: Icon(Icons.email_outlined),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 30,
+                              SizedBox(
+                                height: screenHeight * 0.03,
                               ),
                               TextFormField(
                                 controller: _passwordController,
@@ -238,13 +238,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                   prefixIcon: Icon(Icons.password_outlined),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 70,
+                              SizedBox(
+                                height: screenHeight * 0.06,
                               ),
                               GestureDetector(
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    // first check that all validator are true or not
                                     setState(() {
                                       email = _emailController.text;
                                       name = _nameController.text;
@@ -262,23 +261,33 @@ class _SignupScreenState extends State<SignupScreen> {
                                   elevation: 5,
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    width: 200,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: screenHeight * 0.01),
+                                    width: screenWidth * 0.5,
                                     decoration: BoxDecoration(
                                         color: const Color(0Xffff5722),
                                         borderRadius:
                                             BorderRadius.circular(20)),
-                                    child: const Center(
-                                      child: Text(
-                                        'SIGN UP',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Poppins1',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                    ),
+                                    child: _isLoading
+                                        ? const Center(
+                                            child: SizedBox(
+                                              height: 24,
+                                              width: 24,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        : const Center(
+                                            child: Text(
+                                              'SIGN UP',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins1',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          ),
                                   ),
                                 ),
                               )
@@ -287,11 +296,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: screenHeight * 0.04,
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 50),
+                      padding: EdgeInsets.only(left: screenWidth * 0.1),
                       child: Row(
                         children: [
                           const Text(

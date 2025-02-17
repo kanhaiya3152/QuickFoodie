@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/admin/admin_home.dart';
+import 'package:quick_foodie/admin/admin_home.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -164,8 +164,12 @@ class _AdminScreenState extends State<AdminScreen> {
                                   child: Center(
                                     child: _isLoading
                                         ? const Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
+                                            child: SizedBox(
+                                              height: 25,
+                                              width: 25,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           )
                                         : const Text(
@@ -197,6 +201,9 @@ class _AdminScreenState extends State<AdminScreen> {
     });
     FirebaseFirestore.instance.collection("admin").get().then((snapshot) {
       snapshot.docs.forEach((result) {
+         setState(() {
+          _isLoading = false;
+        });
         if (result.data()['id'] != _usernameController.text.trim()) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               backgroundColor: Colors.orangeAccent,

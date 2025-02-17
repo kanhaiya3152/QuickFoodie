@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screen/payment_screen.dart';
+import 'package:quick_foodie/screen/payment_screen.dart';
 
 class Wallet extends StatefulWidget {
-  
-
-  const Wallet({super.key,});
+  const Wallet({super.key});
 
   @override
   State<Wallet> createState() => _WalletState();
@@ -37,16 +35,19 @@ class _WalletState extends State<Wallet> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 50),
+        margin: EdgeInsets.only(top: screenHeight * 0.05),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Material(
               elevation: 2,
               child: Container(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: screenHeight * 0.01),
                 child: const Center(
                   child: Text(
                     'Wallet',
@@ -58,23 +59,24 @@ class _WalletState extends State<Wallet> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: screenHeight * 0.03,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.01, horizontal: screenWidth * 0.03),
+              width: screenWidth,
               decoration: const BoxDecoration(color: Color(0xFFF2F2F2)),
               child: Row(
                 children: [
                   Image.asset(
                     'assets/wallet.png',
-                    height: 60,
-                    width: 60,
+                    height: screenHeight * 0.08,
+                    width: screenHeight * 0.08,
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(
-                    width: 40,
+                  SizedBox(
+                    width: screenWidth * 0.1,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,24 +88,24 @@ class _WalletState extends State<Wallet> {
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: screenHeight * 0.005,
                       ),
                       Text(
                         "\$" + walletBalance.toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Colors.black,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                            fontSize: screenHeight * 0.025),
                       )
                     ],
                   )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20.0,
+            SizedBox(
+              height: screenHeight * 0.02,
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20.0),
@@ -115,107 +117,99 @@ class _WalletState extends State<Wallet> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10.0,
+            SizedBox(
+              height: screenHeight * 0.01,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => PaymentScreen(),
-                      ),
-                    ).then((_) => fetchWalletBalance()); // Refresh balance after returning
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE9E2E2)),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Text(
-                      "\$100",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16),
-                    ),
+                Container(
+                  padding: EdgeInsets.all(screenWidth * 0.01),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFFE9E2E2)),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.01),
+                  ),
+                  child: Text(
+                    "\$100",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                        fontSize: screenHeight * 0.02),
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: EdgeInsets.all(screenWidth * 0.01),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE9E2E2)),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.01),
                   ),
-                  child: const Text(
+                  child: Text(
                     "\$500",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        fontSize: screenHeight * 0.02),
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: EdgeInsets.all(screenWidth * 0.01),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE9E2E2)),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.01),
                   ),
-                  child: const Text(
+                  child: Text(
                     "\$1000",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        fontSize: screenHeight * 0.02),
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: EdgeInsets.all(screenWidth * 0.01),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE9E2E2)),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.01),
                   ),
-                  child: const Text(
+                  child: Text(
                     "\$2000",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        fontSize: screenHeight * 0.02),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: screenHeight * 0.04,
             ),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
+
                   MaterialPageRoute(
-                    builder: (ctx) => PaymentScreen(),
+                    builder: (ctx) =>const PaymentScreen(),
                   ),
                 ).then((_) => fetchWalletBalance()); // Refresh balance after returning
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                padding: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
+                width: screenWidth,
                 decoration: BoxDecoration(
                   color: const Color(0xFF008080),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.02),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
                     'Add Money',
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: screenHeight * 0.02,
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.bold,
                         color: Colors.white),

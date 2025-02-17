@@ -1,4 +1,4 @@
-name: food_delivery_app
+name: quick_foodie
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -44,6 +44,13 @@ dependencies:
   fluttertoast: ^8.2.10
   image_picker: ^1.1.2
   uuid: ^4.5.1
+  flutter_launcher_icons: ^0.14.3
+  provider: ^6.0.3
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.webp"   
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +90,7 @@ flutter:
     - assets/wallet.png
     - assets/logo.png
     - assets/boy.jpg
+    - assets/logo.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

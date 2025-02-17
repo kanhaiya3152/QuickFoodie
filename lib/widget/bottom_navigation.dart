@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screen/home_screen.dart';
-import 'package:food_delivery_app/screen/order_screen.dart';
-import 'package:food_delivery_app/screen/profile_screen.dart';
-import 'package:food_delivery_app/screen/wallet.dart';
+import 'package:quick_foodie/screen/home_screen.dart';
+import 'package:quick_foodie/screen/order_screen.dart';
+import 'package:quick_foodie/screen/profile_screen.dart';
+import 'package:quick_foodie/screen/wallet.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -28,6 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     home = const HomeScreen();
     order = const OrderScreen();
     profile = const ProfileScreen();
+    // ignore: prefer_const_constructors
     wallet =  Wallet();
     page = [home, order, wallet, profile];
     super.initState();

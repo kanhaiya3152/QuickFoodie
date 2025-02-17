@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screen/login_screen.dart';
-import 'package:food_delivery_app/widget/auth_methods.dart';
+import 'package:quick_foodie/screen/login_screen.dart';
+import 'package:quick_foodie/widget/auth_methods.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -43,6 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -50,66 +53,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Stack(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
-                  height: MediaQuery.of(context).size.height / 4.3,
-                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(
+                      top: screenHeight * 0.05,
+                      left: screenWidth * 0.05,
+                      right: screenWidth * 0.05),
+                  height: screenHeight / 4.3,
+                  width: screenWidth,
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.vertical(
-                      bottom: Radius.elliptical(
-                          MediaQuery.of(context).size.width, 105),
+                      bottom: Radius.elliptical(screenWidth, 105),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 105),
+                  padding: EdgeInsets.only(top: screenHeight * 0.12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         "assets/logo.png",
-                        height: 45,
-                        width: 280,
+                        height: screenHeight * 0.055,
+                        width: screenWidth * 0.65,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: screenHeight * 0.05,
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Material(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(screenWidth * 0.025),
                 elevation: 2,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                    horizontal: 10,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.015,
+                    horizontal: screenWidth * 0.021,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.025),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.person,
                         color: Colors.black,
+                        size: screenHeight * 0.025,
                       ),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: screenWidth * 0.04,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             username,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
+                              fontSize: screenHeight * 0.023,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -120,40 +126,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.02,
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Material(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(screenWidth * 0.025),
                 elevation: 2,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                    horizontal: 10,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.015,
+                    horizontal: screenWidth * 0.021,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.025),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.email,
                         color: Colors.black,
+                        size: screenHeight * 0.025,
                       ),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: screenWidth * 0.04,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             email,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
+                              fontSize: screenHeight * 0.023,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -164,31 +171,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.02,
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Material(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(screenWidth * 0.025),
                 elevation: 2,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                    horizontal: 10,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.015,
+                    horizontal: screenWidth * 0.021,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(screenWidth * 0.025),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(
                         Icons.description,
                         color: Colors.black,
+                        size: screenHeight * 0.025,
                       ),
                       SizedBox(
-                        width: 20,
+                        width: screenWidth * 0.04,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             "Terms and Conditions",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 20,
+                              fontSize: screenHeight * 0.023,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -208,35 +216,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.02,
             ),
             GestureDetector(
               onTap: () {
                 AuthMethods().deleteUser();
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Material(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.025),
                   elevation: 2,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 10,
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.015,
+                    horizontal: screenWidth * 0.021,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(screenWidth * 0.025),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.delete,
                           color: Colors.black,
+                          size: screenHeight * 0.025,
                         ),
                         SizedBox(
-                          width: 20,
+                          width: screenWidth * 0.04,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Deleted Account",
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: screenHeight * 0.023,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -257,8 +266,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: screenHeight * 0.02,
             ),
             GestureDetector(
               onTap: () {
@@ -270,27 +279,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Material(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.025),
                   elevation: 2,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                      horizontal: 10,
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.015,
+                    horizontal: screenWidth * 0.021,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(screenWidth * 0.025),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.logout,
                           color: Colors.black,
+                          size: screenHeight * 0.025,
                         ),
                         SizedBox(
-                          width: 20,
+                          width: screenWidth * 0.04,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,7 +309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Logout",
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: screenHeight * 0.023,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

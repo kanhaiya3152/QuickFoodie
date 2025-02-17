@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/content_model.dart';
-import 'package:food_delivery_app/screen/login_screen.dart';
-// import 'package:food_delivery_app/screen/signup_screen.dart';
+import 'package:quick_foodie/model/content_model.dart';
+import 'package:quick_foodie/screen/login_screen.dart';
 
 class Onboard extends StatefulWidget {
   const Onboard({super.key});
@@ -28,67 +27,120 @@ class _OnboardState extends State<Onboard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Column(
         children: [
           Expanded(
             child: PageView.builder(
-                controller: _controller,
-                itemCount: content.length,
-                onPageChanged: (int index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                itemBuilder: (_, i) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20,top: 40),
-                    child: Column(
-                      children: [
-                        Image.asset(content[i].image,height: 450,width: MediaQuery.of(context).size.width,fit: BoxFit.fill,),
-                        const SizedBox(height: 40,),
-                        Text(content[i].title,style: const TextStyle(color: Colors.black,fontFamily: 'Poppins',fontWeight: FontWeight.bold,fontSize: 22),),
-                        const SizedBox(height: 20,),
-                        Text(content[i].description,style: const TextStyle(color: Colors.black54,fontFamily: 'Poppins',fontWeight: FontWeight.w500,fontSize: 16),),
-                      ],
-                    ),
-                  );
-                }),
+              controller: _controller,
+              itemCount: content.length,
+              onPageChanged: (int index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemBuilder: (_, i) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.05,
+                    right: screenWidth * 0.05,
+                    top: screenHeight * 0.05,
+                  ),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        content[i].image,
+                        height: screenHeight * 0.5,
+                        width: screenWidth,
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(height: screenHeight * 0.05),
+                      Text(
+                        content[i].title,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenHeight * 0.03,
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.02),
+                      Text(
+                        content[i].description,
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: screenHeight * 0.02,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: 
-                  List.generate(content.length, (index) =>
-                   buildDot(index,context)),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(content.length, (index) => buildDot(index, context)),
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.03),
+          GestureDetector(
+            onTap: () {
+              if (currentIndex == content.length - 1) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (ctx) => const LoginScreen(),
+                  ),
+                );
+              } else {
+                _controller.nextPage(
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.bounceIn,
+                );
+              }
+            },
+            child: Container(
+              margin: EdgeInsets.all(screenWidth * 0.05),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(screenWidth * 0.1),
+              ),
+              height: screenHeight * 0.08,
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  currentIndex == content.length - 1 ? 'Start' : 'Next',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: screenHeight * 0.03,
+                  ),
                 ),
               ),
-              const SizedBox(height: 30,),
-              GestureDetector(
-                onTap: (){
-                  if(currentIndex == content.length-1){
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>const LoginScreen() ,),);
-                  }
-                  _controller.nextPage(duration: const Duration(milliseconds: 100), curve: Curves.bounceIn);
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(40)),
-                  height: 60,
-                  width: double.infinity,
-                  child: Center(child: Text(currentIndex == content.length-1 ? 'Start' :'Next',style: const TextStyle(color: Colors.white,fontFamily: 'Poppins',fontWeight: FontWeight.bold,fontSize: 25),)),
-                ),
-              )
+            ),
+          ),
         ],
       ),
     );
   }
-  Container buildDot(int index,BuildContext context){
+
+  Container buildDot(int index, BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      height: 10,
-      width: currentIndex==index ? 18 :10,
-      margin: const EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6),color: Colors.black38),
+      height: screenHeight * 0.012,
+      width: currentIndex == index ? screenHeight * 0.022 : screenHeight * 0.012,
+      margin: EdgeInsets.only(right: screenHeight * 0.005),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(screenHeight * 0.006),
+        color: Colors.black38,
+      ),
     );
   }
 }

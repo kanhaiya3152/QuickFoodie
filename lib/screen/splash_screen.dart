@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screen/onbord.dart';
+import 'package:quick_foodie/screen/onbord.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // duration - 3sec means splashScreen bas 3 sec ke liye visible ho uske baad phir ye login page me navigate ke jaye
     // or pushReplacement direct app se bahar aa jata h wo piche wala page me nhi jata h
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (ctx) =>const Onboard()));
     });

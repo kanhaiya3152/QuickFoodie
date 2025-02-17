@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/utils/utils.dart';
+import 'package:quick_foodie/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -100,7 +100,7 @@ class _AddFoodState extends State<AddFood> {
       await addFoodItems(addItem, value!).then((value) {
         ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
             backgroundColor: Colors.green,
-            content: Text('Food Item has been add Successfully'))));
+            content: Text('Food item has been added successfully'))));
       });
     }
     setState(() {
@@ -354,13 +354,23 @@ class _AddFoodState extends State<AddFood> {
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
-                        child:_isLoading? Center(child: CircularProgressIndicator(color: Colors.white,),): Text(
-                          "Add",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        child: _isLoading
+                            ? Center(
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                "Add",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
                       ),
                     ),
                   ),

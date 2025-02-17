@@ -80,6 +80,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -90,22 +93,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+            margin: EdgeInsets.only(
+                left: screenWidth * 0.05, right: screenWidth * 0.05, top: screenHeight * 0.01),
             child: Image.network(
               widget.image,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.5,
+              width: screenWidth,
+              height: screenHeight / 2.5,
               fit: BoxFit.fill,
             ),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: screenHeight * 0.02,
           ),
           Container(
-            margin: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-            ),
+            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
             child: Row(
               children: [
                 Column(
@@ -113,9 +114,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: [
                     Text(
                       widget.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: screenHeight * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins'),
                     ),
@@ -136,7 +137,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(7)),
+                            borderRadius: BorderRadius.circular(screenHeight * 0.01)),
                         child: const Icon(
                           Icons.remove,
                           color: Colors.white,
@@ -145,18 +146,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  width: 15,
+                SizedBox(
+                  width: screenWidth * 0.04,
                 ),
                 Text(
                   a.toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: screenHeight * 0.022,
                       fontFamily: 'Poppins'),
                 ),
-                const SizedBox(
-                  width: 15,
+                SizedBox(
+                  width: screenWidth * 0.04,
                 ),
                 Row(
                   children: [
@@ -169,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(7)),
+                            borderRadius: BorderRadius.circular(screenHeight * 0.01)),
                         child: const Icon(
                           Icons.add,
                           color: Colors.white,
@@ -181,45 +182,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: screenHeight * 0.02,
           ),
           Container(
-              padding: const EdgeInsets.only(left: 20),
+              padding: EdgeInsets.only(left: screenWidth * 0.05,right:screenWidth * 0.05, ),
               child: Text(
                 widget.details,
                 style: const TextStyle(color: Colors.black54),
                 maxLines: 3,
               )),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: screenHeight * 0.03,
           ),
           Container(
-            padding: const EdgeInsets.only(left: 20),
-            child: const Row(
+            padding: EdgeInsets.only(left: screenWidth * 0.05),
+            child: Row(
               children: [
                 Text(
                   "Delivery Time",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: screenHeight * 0.022,
                       fontFamily: 'Poppins',
                       color: Colors.black),
                 ),
                 SizedBox(
-                  width: 30,
+                  width: screenWidth * 0.08,
                 ),
-                Icon(
+                const Icon(
                   Icons.alarm,
                 ),
                 SizedBox(
-                  width: 6,
+                  width: screenWidth * 0.015,
                 ),
                 Text(
                   "30 min",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: screenHeight * 0.022,
                       fontFamily: 'Poppins',
                       color: Colors.black),
                 ),
@@ -231,23 +232,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20, bottom: 50),
+                padding: EdgeInsets.only(left: screenWidth * 0.05, bottom: screenHeight * 0.06),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Total Price",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: screenHeight * 0.022,
                           fontFamily: 'Poppins',
                           color: Colors.black),
                     ),
                     Text(
                       "\$" + total.toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 22,
+                          fontSize: screenHeight * 0.026,
                           fontFamily: 'Poppins',
                           color: Colors.black),
                     ),
@@ -265,26 +266,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   await addOrUpdateFoodToCart(addFoodtoCart, id);
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 20, bottom: 50),
-                  height: 45,
-                  width: MediaQuery.of(context).size.width / 3,
+                  margin: EdgeInsets.only(right: screenWidth * 0.05, bottom: screenHeight * 0.06),
+                  height: screenHeight * 0.05,
+                  width: screenWidth / 2.8,
                   decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(screenHeight * 0.015)),
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 18, top: 10, bottom: 10),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
                     child: _isLoading
                         ? Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
+                            child: SizedBox(
+                              height: screenHeight * 0.03,
+                              width: screenHeight * 0.03,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                             ),
                           )
                         : Text(
                             "Add to cart",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: screenHeight * 0.02,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins'),
                           ),
