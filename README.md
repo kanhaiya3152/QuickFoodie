@@ -55,5 +55,5 @@ This project is licensed under the MIT License.
 
 ## 📧 Contact
 For any inquiries, feel free to reach out:
-- **Email**: your-kanhiaya3152@gmail.com
+- **Email**: [Kanhaiya](mailto:kanhiaya3152@gmail.com)
 
